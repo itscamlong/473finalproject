@@ -1,8 +1,0 @@
-"""
-Contains all the API variables necessary to access Twitter.
-"""
-
-CONSUMER_KEY = 'Rw6JOWP4OkWqXyKIKufu4dbXM'
-CONSUMER_SECRET = 'TWZDUll9MqOEzMhfIPrAc1KW81WMFoUlAIPMwxI0MDOkRBFIuN'
-ACCESS_TOKEN_KEY = '1414075747-VQoGnBLQLkTjeGA7UwPqzvUH84yz0kmo0MZ31GV'
-ACCESS_TOKEN_SECRET = 'rygxJYlukFXdqxAsLqye5lbKjZ7qe8bMIdyx4Eb5SBEsP'
