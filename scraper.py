@@ -18,8 +18,10 @@ from t import ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECR
 
 def get_tweets(api=None, screen_name=None):
     timeline = api.GetUserTimeline(screen_name=screen_name, count=120, exclude_replies=True, include_rts=False)
+    earliest_tweet = min(timeline, key=lambda x: x.id).id
+    timeline2 = api.GetUserTimeline(screen_name=screen_name, max_id=earliest_tweet, count=40)
 
-    return timeline
+    return timeline, timeline2
 
 
 if __name__ == "__main__":
@@ -27,16 +29,25 @@ if __name__ == "__main__":
         CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET, tweet_mode='extended'
     )
 
-    with open("classusers.txt", "r") as file:
+    with open("baseusers.txt", "r") as file:
         users = file.readlines()
     
     for screen_name in users:
         screen_name = screen_name.strip()
+        screen_name = screen_name.lower()
         print(screen_name)
-        timeline = get_tweets(api=api, screen_name=screen_name)
+        timeline, timeline2 = get_tweets(api=api, screen_name=screen_name)
 
-        path = 'classtimelines/' + screen_name + '.json'
+
+
+        path = 'train_tls/' + screen_name + '.json'
         with open(path, 'w+') as f:
             for tweet in timeline:
+                f.write(json.dumps(tweet._json))
+                f.write('\n')
+
+        path = 'test_tls/' + screen_name + '.json'
+        with open(path, 'w+') as f:
+            for tweet in timeline2:
                 f.write(json.dumps(tweet._json))
                 f.write('\n')
