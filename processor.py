@@ -85,12 +85,18 @@ def feature_extract(document):
             overallTotalToks += len(bloblist[blob])
     feats = {}
     index = index + 1
-    for token in tokens:
+    types = totalCs.keys()
+    for token in types: 
         diff = counts[token] / sum(counts.values()) - (totalCs[token] - counts[token]) / (overallTotalToks - sum(counts.values()))
         if diff > gamma:
             feats["aboveAverage({0})".format(token)] = True
+            feats["belowAverage({0})".format(token)] = False
         elif abs(diff) > gamma:
             feats["belowAverage({0})".format(token)] = True
+            feats["aboveAverage({0})".format(token)] = False
+        else:
+            feats["aboveAverage({0})".format(token)] = False
+            feats["belowAverage({0})".format(token)] = False
     return feats
 
 cl = NaiveBayesClassifier(trainlist, feature_extractor=feature_extract)
